@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+
+{% block content %}
+    {% csrf_token %}
+    <div class="m-3">
+        <h3>{{quiz_name}} Quiz</h3>
+        <div class="m-3">
+            {% if questions.items %}
+                <ol>
+                {% for question, opt in questions.items %}
+                    <li>
+                        <p class="mt-3">{{question}}</p>
+                        <ul>
+                            {% for answer in opt %}
+                            <div>
+                                <input type="radio" name="{{question}}" value="{{answer.text}}" />
+                                <label>{{answer.text}}</label>
+                            </div>
+                            {% endfor %}
+                        </ul>
+                    </li>
+                {% endfor %}
+                </ol>
+            {% else %}
+                <h5 class="mt-3">Questions not available</h5>
+            {% endif %}
+            <button class="btn btn-primary" id="quiz-submit" type="submit"> Submit</button>
+            <h5 class="mt-3" id="result-heading"></h5>
+        </div>
+    </div>
+
+    <script>
+        
+        document.getElementById('quiz-submit').addEventListener('click', function() {
+
+            var csrf = $("input[name= csrfmiddlewaretoken]").val()
+            var questions_1 = '{{ questions_str|safe }}';
+            var questionsAndAnswers = JSON.parse(questions_1)
+            var quiz_name = '{{quiz_name|safe}}';
+
+            var selected_options = {}
+            for (quest in questionsAndAnswers){
+                selector_str = `input[name='` + quest + `']:checked`
+                selected_opt = document.querySelector(selector_str)
+                if (!selected_opt){
+                    $('#result-heading').html("Please select all options")
+                    return
+                }
+                selected_options[quest] = selected_opt.value;
+            }
+
+            selected_options_str = JSON.stringify(selected_options)
+            
+            $.ajax({
+                type: 'POST',
+                url: '',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': csrf,
+                },
+                contentType:'application/json',
+                data : selected_options_str,
+                success: function(response){
+                    result_data = JSON.parse(response.result_data)
+                    correct_ans = result_data["correct_ans"]
+                    correct_ans_str = 'Correct answers- ' + correct_ans
+                    $('#result-heading').html(correct_ans_str)
+                },
+                error: function(){
+                    console.log("Ajax post failure")
+                }
+
+            });
+        });
+
+    </script>
+{% endblock %}
+

@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block content %}
+{% csrf_token %}
+    <div class="m-3">
+        <h1>Quizes</h1>
+        <div class="m-3 d-flex flex-column">
+            {% for d in data %}
+            <div id="quiz-{{d.name}}" class="my-1 d-flex flex-row">
+                <div>
+                    <a href="{% url 'quiz_questions' quiz=d.name|urlencode %}" type="button" class="btn btn-primary" style="min-width:200px;">{{d.name}} </a>
+                </div>
+                <div class="mx-2">
+                    <button id="" class="btn btn-sm btn-danger" onclick="delete_quiz('{{d.name}}')">Delete</button>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="m-3">
+            <a href="{% url 'create_quiz' %}" type="button" class="btn btn-primary">Add new quiz </a>
+        </div>
+    </div>
+
+    <script>
+
+        var csrf = $("input[name= csrfmiddlewaretoken]").val()
+        function delete_quiz(quiz_name){
+            element_id = '#quiz-' + quiz_name
+            $(element_id).remove()
+
+            $.ajax({
+                type: 'DELETE',
+                url: '',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': csrf,
+                },
+                contentType:'application/json',
+                data: JSON.stringify({
+                    'quiz' : quiz_name
+                }),
+                success: function(response){
+                    console.log("Ajax post sucess")
+                },
+                error: function(){
+                    console.log("Ajax post failure")
+                }
+
+            });
+        }
+    </script>
+{% endblock %}
