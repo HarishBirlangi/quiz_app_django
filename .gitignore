@@ -1,0 +1,8 @@
+# Django-related files
+*.pyc
+*.pyo
+*.pyd
+__pycache__/
+*.egg-info/
+*.egg
+*.log
