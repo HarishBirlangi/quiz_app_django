@@ -16,10 +16,12 @@ class QuizesListView(generics.ListCreateAPIView, generics.DestroyAPIView):
     serializer_class= QuizSerializer
     lookup_field = 'name'
     
+    
     def get(self, request, *args, **kwargs):
+        mobile_app = request.headers['mobile_app']
         queryset = self.get_queryset()
         serializer = QuizSerializer(queryset, many = True)
-        return render(request, 'all_quizes_template.html', {'data': serializer.data})
+        return render(request, 'all_quizes_template.html', {'data': serializer.data, 'mobile_app' : mobile_app})
     
     def delete(self, request, *args, **kwargs):
         data = request.data
