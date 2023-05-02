@@ -19,7 +19,9 @@ class QuizesListView(generics.ListCreateAPIView, generics.DestroyAPIView):
     
     def get(self, request, *args, **kwargs):
         print("Headers")
+        user_agent = request.headers.get('User-Agent')
         mobile_app = request.headers.get('mobile_app')
+        print(user_agent)
         print(mobile_app)
         queryset = self.get_queryset()
         serializer = QuizSerializer(queryset, many = True)
