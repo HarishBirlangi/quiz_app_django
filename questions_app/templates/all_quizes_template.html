@@ -2,7 +2,7 @@
 
 {% block content %}
 
-{% with user_agent=request.META.HTTP_USER_AGENT %}
+{% with user_agent=request.headers.mobile_app %}
 {% csrf_token %}
     <div class="m-3">
         <h1>Quizes</h1>
