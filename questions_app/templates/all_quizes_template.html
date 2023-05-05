@@ -2,11 +2,14 @@
 
 {% block content %}
 
-{% with user_agent=request.headers.mobile_app %}
+{% with user_agent=request.META.HTTP_USER_AGENT %}
+{% with platform_agent=request.META.HTTP_X_PLATFORM %}
 {% csrf_token %}
     <div class="m-3">
         <h1>Quizes</h1>
-        <h5>User aegnt: {{mobile_app}}</h5>
+        <h5>User agent: {{user_agent}}</h5>
+        <h5>Platform agent: {{platform_agent}}</h5>
+
         <div class="m-3 d-flex flex-column">
             {% for d in data %}
             <div id="quiz-{{d.name}}" class="my-1 d-flex flex-row">
@@ -52,5 +55,6 @@
             });
         }
     </script>
+{% endwith %}
 {% endwith %}
 {% endblock %}
