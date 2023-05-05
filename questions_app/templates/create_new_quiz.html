@@ -1,9 +1,14 @@
 {% extends "base.html" %}
 
 {% block content %}
+{% with platform_agent=request.META.HTTP_X_PLATFORM %}
 {% csrf_token %}
     <div class="m-3">
         <h3>Create Quiz</h3>
+        <h3>{{platform_agent}}</h3>
+        {{% if platform_agent=='android' %}}
+            <h3>Android mobile</h3>
+        {% endif %}
         <div class="m-3">
             <input type="text" name="" id="quiz-name" placeholder="Quiz Name">
         </div>
@@ -68,7 +73,6 @@
                 questions[question] = {'options':options, 'correct_answer': correct_answer}
             });
             quiz[quiz_name] = questions
-            console.log(quiz)
 
             quiz_str = JSON.stringify(quiz)
 
@@ -97,5 +101,5 @@
 
     </script>
 
-
+{% endwith %}
 {% endblock %}
