@@ -1,14 +1,12 @@
 {% extends "base.html" %}
 
 {% block content %}
-{% with platform_agent=request.META.HTTP_X_PLATFORM %}
 {% csrf_token %}
+{% with platform_agent=request.META.HTTP_X_PLATFORM %}
     <div class="m-3">
         <h3>Create Quiz</h3>
-        <h3>{{platform_agent}}</h3>
-        {{% if platform_agent=='android' %}}
-            <h3>Android mobile</h3>
-        {% endif %}
+        <h5>Platform agent: {{platform_agent}}</h5>
+        
         <div class="m-3">
             <input type="text" name="" id="quiz-name" placeholder="Quiz Name">
         </div>
