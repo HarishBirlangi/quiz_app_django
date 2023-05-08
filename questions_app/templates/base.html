@@ -12,7 +12,8 @@
 </head>
 <script>
     var platform_type = "Before registering mobile";
-    window.addEventListener("PlatformDetailsFromFlutter", (event) => {
+    $(document).ready(function(){
+        window.addEventListener("PlatformDetailsFromFlutter", (event) => {
         var platform_str=JSON.stringify(event.detail);
         var platform_data=JSON.parse(platform_str);
         var platform_type = platform_data.platform;
@@ -20,6 +21,7 @@
         console.log(platform_type);
         localStorage.setItem("platform_type", platform_type);
     });
+    })
 </script>
 <body>
     {% block content %}

@@ -7,7 +7,9 @@
 {% csrf_token %}
     <div class="m-3">
         <h1>Quizes</h1>
-        <h5>Platform agent: {{platform_str}}</h5>
+        <h5>Platform agent: {{platform_str}} <script>
+            document.write(platform_type)
+          </script> </h5>
         <h5>Platform agent: {{platform_type}}</h5>
         <h5>Platform agent: {{platform_agent}}</h5>
         <div class="m-3 d-flex flex-column">
