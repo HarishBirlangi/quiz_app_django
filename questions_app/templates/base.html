@@ -11,12 +11,12 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
 </head>
 <script>
-    var platform_type = "Before registering mobile";
+    let platform_type = "Before registering mobile";
     $(document).ready(function(){
         window.addEventListener("PlatformDetailsFromFlutter", (event) => {
         var platform_str=JSON.stringify(event.detail);
         var platform_data=JSON.parse(platform_str);
-        var platform_type = platform_data.platform;
+        platform_type = platform_data.platform;
         console.log('Platform from flutter to JS');
         console.log(platform_type);
         localStorage.setItem("platform_type", platform_type);
