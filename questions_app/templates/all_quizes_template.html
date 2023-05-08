@@ -8,8 +8,8 @@
     <div class="m-3">
         <h1>Quizes</h1>
         <h5>User agent: {{user_agent}}</h5>
-        <h5>Platform agent: {{platform_agent}}</h5>
-
+        <h5>Platform agent: {{platformData}}</h5>
+        <h5>Platform agent: {{platformData.platform}}</h5>
         <div class="m-3 d-flex flex-column">
             {% for d in data %}
             <div id="quiz-{{d.name}}" class="my-1 d-flex flex-row">
