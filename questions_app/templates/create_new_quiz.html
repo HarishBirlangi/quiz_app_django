@@ -2,15 +2,10 @@
 
 {% block content %}
 {% csrf_token %}
-{% with platform_agent=request.META %}
+{% with platform_agent=request.META.HTTP_USER_AGENT %}
     <div class="m-3">
         <h3>Create Quiz</h3>
-        <h5>Platform agent: <script>
-            document.write(platform_type)
-          </script> </h5>
-        <h5>Platform agent: {{platform_agent.HTTP_X_PLATFORM}} </h5>
         <h5>Platform agent: {{platform_agent}}</h5>
-        
         
         <div class="m-3">
             <input type="text" name="" id="quiz-name" placeholder="Quiz Name">

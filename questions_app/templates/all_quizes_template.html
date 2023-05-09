@@ -7,11 +7,10 @@
 {% csrf_token %}
     <div class="m-3">
         <h1>Quizes</h1>
-        <h5>Platform agent: {{platform_str}} <script>
-            document.write(platform_type)
-          </script> </h5>
-        <h5>Platform agent: {{platform_type}}</h5>
-        <h5>Platform agent: {{platform_agent}}</h5>
+        <h5>Platform agent 1: {{user_agent}}</h5>
+        {% if "ClearFlowMobileApp" in request.META.HTTP_USER_AGENT %}
+            <h5>Platform agent 2: {{user_agent}}</h5>
+        {% endif %}
         <div class="m-3 d-flex flex-column">
             {% for d in data %}
             <div id="quiz-{{d.name}}" class="my-1 d-flex flex-row">
