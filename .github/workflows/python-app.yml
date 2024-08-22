@@ -17,7 +17,29 @@ jobs:
 
     runs-on: ubuntu-latest
 
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_DB: ${{ vars.DB_NAME }}          # Use the environment variables
+          POSTGRES_USER: ${{ vars.DB_USER }}
+          POSTGRES_PASSWORD: ${{ vars.DB_PASSWORD }}
+        options: >-
+          --health-cmd="pg_isready -U ${{ vars.DB_USER }}"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=5
+        ports:
+          - 5432:5432
+
     steps:
     - name: Test with pytest
       run: |
         echo "hello world"
+
+    - name: Wait for PostgreSQL to be ready
+      run: until pg_isready -h 127.0.0.1 -p 5432 -U ${{ vars.DB_USER }}; do echo "Waiting for postgres..."; sleep 1; done
+
+    - name: Verify PostgreSQL connection
+      run: |
+        PGPASSWORD={{ vars.DB_PASSWORD }} psql -h 127.0.0.1 -U ${{ vars.DB_USER }} -d ${{ vars.DB_NAME }} -c "SELECT 1;"
